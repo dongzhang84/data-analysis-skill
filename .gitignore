@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Generated outputs
+*.pptx
+*.pdf
+reports/
+output/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Env
+.env
+.env.local
+
+# Claude local settings
+.claude/settings.local.json
