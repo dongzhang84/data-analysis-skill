@@ -89,7 +89,18 @@ gold (#FFD700) text on light backgrounds / purple backgrounds
 
 ## Report Styles
 
-When the user doesn't specify a style, randomly select from the following to keep outputs fresh:
+**Auto-select style based on data domain** (when user has not specified a style):
+
+| Data Domain | Auto-selected Style |
+|-------------|---------------------|
+| Financial / stock / investment data | Financial Times |
+| SaaS / product / growth metrics | Takram |
+| Strategy / market / competitive analysis | McKinsey |
+| Research / academic / technical | Swiss / NZZ |
+| Retail / consumer / e-commerce | The Economist |
+| Domain unclear | Random selection (see below) |
+
+If domain is ambiguous or the data spans multiple domains, randomly select from all available styles to keep outputs fresh:
 
 ### Classic (Finance / Consulting / Media)
 
@@ -128,10 +139,14 @@ For any dataset with meaningful analytical depth, follow the four-phase process:
 Enable multi-expert deep analysis (rather than a simple statistical summary) when **any** of:
 - Data has multiple analytical dimensions (time series + financials + behavior, etc.)
 - User explicitly requests "deep analysis", "comprehensive analysis", or "make a report"
-- Dataset has >500 rows or >10 fields
+- Dataset has >1000 rows and >15 fields
 - Simple analysis would fail to surface the full value of the data
 
 Simple tasks (lookup, table formatting, formula writing) do **not** need this workflow.
+
+⚠️ FAST PATH: If data has <200 rows AND <15 fields,
+skip multi-expert workflow. Do direct single-pass
+analysis and generate HTML report immediately.
 
 ### Four-Phase Process
 

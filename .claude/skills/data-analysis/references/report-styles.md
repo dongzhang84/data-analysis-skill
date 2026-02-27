@@ -73,6 +73,58 @@ Byline/meta:    Arial, sans-serif — 12px, color #66605A
 - Numbers right-aligned in tables
 - Subtle drop shadow on chart container: `box-shadow: 0 1px 3px rgba(0,0,0,0.08)`
 
+#### CSS Snippet
+```css
+:root {
+  --ft-bg:      #FFF1E5;   /* signature salmon */
+  --ft-text:    #33302E;
+  --ft-head:    #1A1A1A;
+  --ft-accent:  #A6190D;   /* FT red — sparingly */
+  --ft-border:  #D7B89C;
+  --ft-teal:    #0D7680;
+  --ft-gold:    #F2A900;
+}
+html, body { background: var(--ft-bg); }
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ft-text);
+}
+h1 {
+  font-family: Georgia, serif;
+  font-size: 2rem;
+  color: var(--ft-head);
+  border-bottom: 1px solid var(--ft-border);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+h2 {
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ft-accent);
+  margin-bottom: 12px;
+}
+.chart-container {
+  background: var(--ft-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  padding: 20px 20px 12px;
+  margin: 20px 0;
+}
+.source {
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  color: #66605A;
+  margin-top: 8px;
+}
+```
+
 #### Feel Notes
 Warm, authoritative, like a Saturday FT longread. Never feel corporate or cold.
 Headlines state the conclusion: "Margins Erode for Third Consecutive Quarter"
@@ -121,6 +173,56 @@ Data labels:    Arial, 11–12px
 - Bullet indentation: three levels max, first level is strategic, third is evidence
 - Footer: "McKinsey & Company" equivalent — replace with client/project name
 
+#### CSS Snippet
+```css
+:root {
+  --mc-navy:       #002F6C;
+  --mc-red:        #D22B27;   /* callouts only */
+  --mc-blue:       #4472C4;
+  --mc-border:     #C8C9C7;
+  --mc-row-alt:    #F5F7FA;
+  --mc-insight-bg: #EEF2FA;
+}
+html, body { background: #fff; }
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  font-family: "Franklin Gothic Medium", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #1A1A2E;
+}
+h1 { font-size: 1.8rem; font-weight: 700; color: var(--mc-navy); }
+h2 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mc-navy);
+  border-bottom: 2px solid var(--mc-navy);
+  padding-bottom: 6px;
+}
+.exhibit-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--mc-navy);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.insight-box {
+  border-left: 4px solid var(--mc-navy);
+  background: var(--mc-insight-bg);
+  padding: 14px 18px;
+  font-style: italic;
+  border-radius: 0 3px 3px 0;
+  margin: 16px 0;
+}
+table thead th { background: var(--mc-navy); color: #fff; padding: 8px 12px; font-size: 12px; }
+table tbody tr:nth-child(even) { background: var(--mc-row-alt); }
+```
+
 #### Feel Notes
 Structured, confident, analytical. Every element earns its place.
 Never decorative. If a chart doesn't answer "So what?", remove it.
@@ -167,6 +269,48 @@ Caption:        Arial, italic, 11px, grey
 - Column layout: narrow left annotation + wide right chart (two-column)
 - Subhead called "Buttonwood" / "Briefing" — replace with section labels
 - "Source:" label always present, bottom-left, 10px
+
+#### CSS Snippet
+```css
+:root {
+  --eco-red:  #E3120B;   /* signature — rules, callouts */
+  --eco-text: #1A1A1A;
+  --eco-grey: #9E9E9E;
+  --eco-dkgrey: #424242;
+}
+html, body { background: #fff; }
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  font-family: Georgia, "Officina Serif", serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--eco-text);
+}
+h1 { font-size: 2rem; font-weight: 700; color: #000; line-height: 1.2; }
+h2 { font-family: Georgia, serif; font-size: 1.1rem; font-style: italic; color: #000; }
+/* Red rule above every chart title */
+.chart-title-wrapper {
+  border-top: 2px solid var(--eco-red);
+  padding-top: 8px;
+  margin-bottom: 12px;
+}
+.chart-title {
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--eco-text);
+  line-height: 1.3;
+}
+.source {
+  font-family: Arial, sans-serif;
+  font-size: 10px;
+  color: var(--eco-grey);
+  font-style: italic;
+  margin-top: 6px;
+}
+```
 
 #### Feel Notes
 Dense, opinionated, treats reader as intelligent. Headlines have a point of view.
@@ -264,6 +408,56 @@ Caption:        Light, 11px, #666666
 - No decorative elements — no gradients, no shadows, no rounded corners
 - Single red element per page maximum
 - Numbers presented in monospace for alignment
+
+#### CSS Snippet
+```css
+:root {
+  --sw-black:   #000000;
+  --sw-white:   #FFFFFF;
+  --sw-mid:     #666666;
+  --sw-light:   #BBBBBB;
+  --sw-red:     #E63329;   /* single accent — use once per page */
+  --sw-grid:    #EEEEEE;
+}
+html, body { background: var(--sw-white); }
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  font-family: "Helvetica Neue", "Aktiv Grotesk", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--sw-black);
+}
+/* Extreme weight contrast: headline is massive, subhead is wispy */
+h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: #000;
+  margin-bottom: 8px;
+}
+h2 {
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--sw-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+/* Big number cards */
+.big-number {
+  font-size: 5rem;
+  font-weight: 900;
+  color: #000;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+/* 70% whitespace: generous section gaps */
+section { margin: 72px 0; }
+/* No decorative elements — charts bare */
+.chart-container { border: none; background: transparent; padding: 0; }
+```
 
 #### Feel Notes
 Quiet confidence. The restraint IS the design statement.
@@ -368,6 +562,55 @@ Caption:        Inter, 11px, #9E9E9E
 - Charts: smooth curves (not sharp angular lines), filled area with 15% opacity
 - Generous padding inside cards: 24–32px
 - Section transitions: thin horizontal line, 1px, #EBEBEB
+
+#### CSS Snippet
+```css
+:root {
+  --tk-bg:     #FAFAF8;   /* warm off-white */
+  --tk-text:   #2C2C2C;
+  --tk-accent: #3D5AFE;   /* vibrant blue */
+  --tk-cyan:   #00BCD4;
+  --tk-card:   #FFFFFF;
+  --tk-shadow: rgba(0, 0, 0, 0.06);
+  --tk-border: #EBEBEB;
+}
+html, body { background: var(--tk-bg); }
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px;
+  font-family: Inter, "Noto Sans JP", sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--tk-text);
+}
+h1 { font-size: 2rem; font-weight: 700; color: #1A1A1A; letter-spacing: -0.01em; }
+h2 {
+  font-size: 0.95rem;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--tk-text);
+  border-bottom: 1px solid var(--tk-border);
+  padding-bottom: 8px;
+}
+/* Card component — every insight gets one */
+.card {
+  background: var(--tk-card);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--tk-shadow);
+  padding: 24px 28px;
+  margin: 16px 0;
+}
+/* KPI display */
+.kpi-value {
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--tk-accent);
+  line-height: 1;
+}
+.kpi-delta { font-size: 0.8rem; color: var(--tk-cyan); font-weight: 500; }
+/* Smooth chart areas — set in ECharts: smooth: 0.4, areaStyle opacity: 0.15 */
+```
 
 #### Feel Notes
 Thoughtful, human, considered. Designed for smart people who also care about beauty.
