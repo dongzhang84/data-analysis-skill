@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaaS Business Performance Analysis — Jan 2022 – Dec 2024</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+/* ── Takram: Light, Japanese, Gentle Tech ── */
+:root {
+  --bg:       #FAFAF8;
+  --surface:  #FFFFFF;
+  --border:   #EBEBEB;
+  --body:     #2C2C2C;
+  --muted:    #888888;
+  --light:    #BBBBBB;
+  --accent:   #3D5AFE;
+  --cyan:     #00BCD4;
+  --green:    #43A047;
+  --red:      #EF5350;
+  --amber:    #FF9800;
+  --shadow:   rgba(0, 0, 0, 0.06);
+  --shadow-md: rgba(0, 0, 0, 0.10);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--body);
+  font-family: Inter, 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 48px 80px;
+}
+
+/* ── Typography ── */
+h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #1A1A1A;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.0rem;
+  font-weight: 600;
+  color: var(--body);
+  letter-spacing: 0.01em;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+h2::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+h3 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+p { margin-bottom: 12px; }
+p:last-child { margin-bottom: 0; }
+
+/* ── Header ── */
+.report-header {
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 36px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.header-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  background: rgba(61, 90, 254, 0.08);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.header-date {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.report-subtitle {
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 8px;
+  line-height: 1.55;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 24px 28px;
+}
+
+.card-sm {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 18px 20px;
+}
+
+/* ── Executive Summary ── */
+.exec-summary {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 16px var(--shadow-md);
+  padding: 28px 32px;
+  margin: 0 0 36px;
+  border-left: 4px solid var(--accent);
+}
+
+.exec-summary h3 {
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.exec-summary ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exec-summary li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  padding-left: 20px;
+  position: relative;
+}
+
+.exec-summary li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  top: 2px;
+}
+
+/* ── KPI Grid ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin: 0 0 36px;
+}
+
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.kpi-card {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 18px 20px;
+  transition: box-shadow 0.2s;
+}
+
+.kpi-card:hover {
+  box-shadow: 0 4px 20px var(--shadow-md);
+}
+
+.kpi-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 5px;
+  letter-spacing: -0.02em;
+}
+
+.kpi-value.cyan { color: var(--cyan); }
+.kpi-value.green { color: var(--green); }
+.kpi-value.dark { color: var(--body); }
+
+.kpi-delta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--green);
+}
+
+.kpi-delta.neg { color: var(--red); }
+.kpi-delta.warn { color: var(--amber); }
+
+.kpi-sub {
+  font-size: 0.67rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── Sections ── */
+.section {
+  margin: 48px 0;
+}
+
+.section-intro {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 22px;
+  line-height: 1.6;
+  max-width: 720px;
+}
+
+/* ── Chart container ── */
+.chart-card {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 22px 24px 14px;
+  margin: 16px 0;
+}
+
+.chart-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(61, 90, 254, 0.07);
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 5px;
+}
+
+.chart-headline {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--body);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.chart-canvas { width: 100%; height: 290px; }
+.chart-canvas-tall { width: 100%; height: 330px; }
+
+.chart-note {
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── 2-column chart layout ── */
+.chart-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 800px) {
+  .chart-2col { grid-template-columns: 1fr; }
+}
+
+/* ── Insight Callout ── */
+.insight {
+  background: rgba(61, 90, 254, 0.05);
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.86rem;
+  margin: 16px 0;
+  line-height: 1.55;
+  color: var(--body);
+}
+
+.insight strong { color: var(--accent); }
+
+.warning {
+  background: rgba(255, 152, 0, 0.07);
+  border-left: 3px solid var(--amber);
+  padding: 14px 18px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.86rem;
+  margin: 16px 0;
+  line-height: 1.55;
+}
+
+.warning strong { color: #B45309; }
+
+/* ── Risk Cards ── */
+.risk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+@media (max-width: 700px) {
+  .risk-grid { grid-template-columns: 1fr; }
+}
+
+.risk-card {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 18px 20px;
+}
+
+.risk-card.high   { border-top: 3px solid var(--red); }
+.risk-card.medium { border-top: 3px solid var(--amber); }
+.risk-card.low    { border-top: 3px solid var(--green); }
+
+.risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.risk-card.high   .risk-badge { background: #FEE2E2; color: #991B1B; }
+.risk-card.medium .risk-badge { background: #FEF3C7; color: #92400E; }
+.risk-card.low    .risk-badge { background: #D1FAE5; color: #065F46; }
+
+.risk-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--body);
+  margin-bottom: 7px;
+  line-height: 1.35;
+}
+
+.risk-body {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Recommendations ── */
+.rec-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.rec-card {
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 18px 22px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.rec-num {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 30px;
+}
+
+.rec-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--body);
+  margin-bottom: 4px;
+}
+
+.rec-body {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Data Table ── */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 2px 12px var(--shadow);
+  margin-top: 18px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+thead th {
+  padding: 10px 14px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+}
+
+thead th:first-child { text-align: left; }
+
+tbody tr:nth-child(even) { background: #FAFAF8; }
+
+tbody td {
+  padding: 9px 14px;
+  text-align: right;
+  color: var(--body);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+tbody td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: var(--body);
+}
+
+/* ── Next Steps ── */
+.next-steps-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+@media (max-width: 700px) {
+  .next-steps-grid { grid-template-columns: 1fr; }
+}
+
+.next-step-item {
+  background: var(--surface);
+  border-radius: 6px;
+  box-shadow: 0 1px 8px var(--shadow);
+  padding: 12px 16px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  line-height: 1.45;
+}
+
+.next-step-item::before {
+  content: '→';
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── Footer ── */
+.report-footer {
+  margin-top: 64px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── Divider ── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+/* ── Label chip ── */
+.chip {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.chip.accent { background: rgba(61,90,254,0.1); color: var(--accent); }
+.chip.green  { background: #D1FAE5; color: #065F46; }
+.chip.amber  { background: #FEF3C7; color: #92400E; }
+.chip.red    { background: #FEE2E2; color: #991B1B; }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
+<header class="report-header">
+  <div class="header-top">
+    <span class="header-tag">Deep Analysis</span>
+    <span class="header-date">Feb 2026 · SaaS Business · Jan 2022 – Dec 2024 · 36 months</span>
+  </div>
+  <h1>A Profitable PLG Flywheel at Inflection:<br>Exceptional Efficiency, One Structural Risk</h1>
+  <p class="report-subtitle">Multi-expert analysis across investor, revenue operations, customer economics, and CFO perspectives — synthesized into a unified narrative.</p>
+</header>
+
+
+<!-- ══ EXECUTIVE SUMMARY ════════════════════════════════════════════════════ -->
+<div class="exec-summary">
+  <h3>Executive Summary</h3>
+  <ul>
+    <li><strong>The flywheel is working.</strong> ARR re-accelerated to 30.9% YoY in 2024, Rule of 40 recovered to 47.6, CAC payback is 5.5 months (best-in-class), and the company has been EBITDA-positive every single month across all 36 periods — generating $4.67M cumulatively with no external financing required.</li>
+    <li><strong>The GTM machine is at its most efficient.</strong> S&M as a percentage of revenue fell from 29.6% to 26.9%, Magic Number recovered to 0.99 in 2024, and R&D cost-per-new-customer fell 51% while expansion MRR grew 91% — a compounding PLG return that is simultaneously improving acquisition and retention.</li>
+    <li><strong>ACV compression of 61.5% is the single defining strategic fact.</strong> The company traded a $13,944 average contract (2022) for a $5,365 average contract (2024). This is deliberate market widening — not commoditization — confirmed by expanding EBITDA margins and NRR above 112%. But the structural consequence is a growing volume treadmill: 80+ logos must be acquired monthly just to sustain net customer growth.</li>
+    <li><strong>Gross margin is approaching a quality threshold.</strong> The erosion from 72.0% (2022) to 71.0% (2024) is slow but uninterrupted. COGS grew 79.5% over two years while revenue grew 72.9%. COGS-per-customer fell 57% — a strong economies-of-scale signal — but the per-unit improvement is decelerating, and without structural intervention, gross margin reaches the investor-critical 70% floor by 2025.</li>
+    <li><strong>The path to 20% EBITDA margin is within reach in 2025.</strong> All three opex lines (S&M, R&D, G&A) are simultaneously leveraging. At $14.2M ARR run-rate entering 2025 with 16.7% margins, ~15% revenue growth and opex discipline would close the gap. The constraint is gross margin, not operating leverage.</li>
+  </ul>
+</div>
+
+
+<!-- ══ KPI DASHBOARD ════════════════════════════════════════════════════════ -->
+<section>
+  <h3>Performance Dashboard — December 2024</h3>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">ARR</div>
+      <div class="kpi-value">$14.2M</div>
+      <div class="kpi-delta">+30.9% YoY</div>
+      <div class="kpi-sub">Re-accelerated from 21.6%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Rule of 40</div>
+      <div class="kpi-value cyan">47.6</div>
+      <div class="kpi-delta">+11.7 pts vs 2023</div>
+      <div class="kpi-sub">Top quartile benchmark</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">CAC Payback</div>
+      <div class="kpi-value green">5.5 mo</div>
+      <div class="kpi-delta">↓ from 5.6 mo in 2022</div>
+      <div class="kpi-sub">Best-in-class (&lt;12 mo)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">NRR (2024 avg)</div>
+      <div class="kpi-value">112.5%</div>
+      <div class="kpi-delta">↑ from 111.0% in 2022</div>
+      <div class="kpi-sub">Never below 105.8%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">EBITDA Margin</div>
+      <div class="kpi-value cyan">16.7%</div>
+      <div class="kpi-delta">+320 bps vs 2022</div>
+      <div class="kpi-sub">Positive all 36 months</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Active Customers</div>
+      <div class="kpi-value dark">2,644</div>
+      <div class="kpi-delta">+6.15× in 3 years</div>
+      <div class="kpi-sub">84.8% YoY growth in 2024</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ SECTION 1: GROWTH ════════════════════════════════════════════════════ -->
+<section class="section">
+  <h2>ARR Re-Accelerated to 30.9% — Volume Is the Engine</h2>
+  <p class="section-intro">MRR grew 137% over 36 months. The 2023 deceleration to 21.6% YoY ARR growth masked an underlying acceleration in customer acquisition. 2024 validated the strategy: record net new ARR of $3.35M, record customer adds of 1,888 new logos, and a re-energized Rule of 40 of 47.6.</p>
+
+  <div class="chart-2col">
+    <div class="chart-card">
+      <span class="chart-tag">Figure 1</span>
+      <div class="chart-headline">MRR broke $1.18M in Dec 2024 — growth rate recovering to 2022 momentum</div>
+      <div class="chart-canvas" id="chart-mrr"></div>
+      <div class="chart-note">MRR = contracted monthly recurring revenue. 3-year CAGR: 33.3%.</div>
+    </div>
+    <div class="chart-card">
+      <span class="chart-tag">Figure 2</span>
+      <div class="chart-headline">Customer base grew 6.15× — acquisition pace accelerated each year</div>
+      <div class="chart-canvas" id="chart-customers"></div>
+      <div class="chart-note">Net adds: 573 (2022) → 1,030 (2023) → 1,888 (2024). Absolute churn: 196 → 388 → 675 logos.</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>Re-acceleration signal:</strong> Q4 2024 was the strongest quarter on record — 626 new customers acquired against only 214 churned, producing net adds of 412 logos in a single quarter. This represents a 4.5× improvement over Q4 2022 (189 new, 78 churned = 111 net adds). The growth engine is structurally stronger than 3 years ago.
+  </div>
+</section>
+
+
+<!-- ══ SECTION 2: GTM EFFICIENCY ═══════════════════════════════════════════ -->
+<section class="section">
+  <h2>GTM Machine Recovered — Magic Number Back Above 1.0</h2>
+  <p class="section-intro">The company executed a deliberate PLG transition: from sales-led ($13.9K ACV, 7.5-month payback) in 2022 to product-led ($5.4K ACV, 5.5-month payback) by 2024. The 2023 Magic Number dip to 0.68 was an investment lag, not a structural failure — confirmed by the 2024 recovery to 0.99 with Q3–Q4 both above 1.0.</p>
+
+  <div class="chart-card">
+    <span class="chart-tag">Figure 3</span>
+    <div class="chart-headline">Magic Number recovered: Q3 2024 (1.34) and Q4 2024 (1.10) confirm GTM efficiency is restored</div>
+    <div class="chart-canvas" id="chart-magic"></div>
+    <div class="chart-note">Magic Number = Net new ARR / prior-quarter S&M spend. &gt;1.0 = very efficient. Q1 2022 excluded (no prior-quarter data).</div>
+  </div>
+
+  <div class="chart-2col" style="margin-top:14px;">
+    <div class="chart-card">
+      <span class="chart-tag">Figure 4</span>
+      <div class="chart-headline">S&M % of revenue fell 270 bps — the growth engine costs less per revenue dollar each year</div>
+      <div class="chart-canvas" id="chart-sm"></div>
+      <div class="chart-note">All three opex lines are simultaneously leveraging: S&M −266 bps, R&D −105 bps, G&A −55 bps over 3 years.</div>
+    </div>
+    <div class="chart-card">
+      <span class="chart-tag">Figure 5</span>
+      <div class="chart-headline">Sales velocity grew 2.8× — volume compensates for ACV compression</div>
+      <div class="chart-canvas" id="chart-velocity"></div>
+      <div class="chart-note">Sales velocity = new customers × avg ACV per quarter. Volume grew 6.8× while ACV fell 59%.</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>GTM Metric</th>
+          <th>2022</th>
+          <th>2023</th>
+          <th>2024</th>
+          <th>Change</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Avg CAC</td>
+          <td>$4,170</td>
+          <td>$3,032</td>
+          <td>$1,977</td>
+          <td>−53%</td>
+        </tr>
+        <tr>
+          <td>CAC Payback</td>
+          <td>5.6 mo</td>
+          <td>5.5 mo</td>
+          <td>5.5 mo</td>
+          <td>Stable (best-in-class)</td>
+        </tr>
+        <tr>
+          <td>Magic Number (avg)</td>
+          <td>1.67</td>
+          <td>0.68</td>
+          <td>0.99</td>
+          <td>Recovery underway</td>
+        </tr>
+        <tr>
+          <td>S&M % of Revenue</td>
+          <td>29.6%</td>
+          <td>28.8%</td>
+          <td>26.9%</td>
+          <td>−270 bps</td>
+        </tr>
+        <tr>
+          <td>R&D cost / new customer</td>
+          <td>$2,270</td>
+          <td>$1,711</td>
+          <td>$1,119</td>
+          <td>−51% (PLG signal)</td>
+        </tr>
+        <tr>
+          <td>Revenue per Employee</td>
+          <td>$169K</td>
+          <td>$156K</td>
+          <td>$148K</td>
+          <td>−13% (watch)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══ SECTION 3: UNIT ECONOMICS ═══════════════════════════════════════════ -->
+<section class="section">
+  <h2>Unit Economics Are Sound — ACV Compression Is Strategic, Not Structural Failure</h2>
+  <p class="section-intro">ACV fell 61.5% from $13,944 to $5,365. Three signals confirm this is deliberate market widening: CAC fell 73% (faster than ACV), EBITDA margins expanded, and NRR stayed above 110%. The trade: volume for pricing power. The math works today — the question is whether it works at 3× current scale.</p>
+
+  <div class="chart-2col">
+    <div class="chart-card">
+      <span class="chart-tag">Figure 6</span>
+      <div class="chart-headline">ACV compressed 61.5% but CAC fell 73% — the economics improved even as contracts shrank</div>
+      <div class="chart-canvas" id="chart-acv-cac"></div>
+      <div class="chart-note">ACV = avg annual contract value. CAC = sales & marketing cost ÷ new customers per month.</div>
+    </div>
+    <div class="chart-card">
+      <span class="chart-tag">Figure 7</span>
+      <div class="chart-headline">LTV/CAC ratio averaged 6.5× across 3 years — healthy, but watch the 2024 H2 dip to 5.5×</div>
+      <div class="chart-canvas" id="chart-ltv-cac"></div>
+      <div class="chart-note">LTV/CAC &gt;3× = healthy; &gt;5× = strong. Peaked at 10.67× in March 2024; recent compression is a monitoring item.</div>
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>Volume treadmill risk:</strong> At $5,365 average ACV and 3% monthly churn, each month requires approximately 80 new logos just to offset churn headcount. In Q4 2024, the company acquired 626 new customers in the quarter (avg 208/month) — well ahead of the ~75 monthly churn rate. But the treadmill is accelerating: annual base turnover ran at 32–34% across all three years, meaning the company replaced roughly one-third of its entire customer base every year just to stay flat. At 2,644 active customers, gross annual logo attrition is now ~1,020 — a replacement burden that compounds with each new cohort and has no historical interruption to test against. One weak sales quarter at 3,500+ customers creates structural exposure.
+  </div>
+</section>
+
+
+<!-- ══ SECTION 4: NET REVENUE RETENTION ════════════════════════════════════ -->
+<section class="section">
+  <h2>NRR Above 110% for All 36 Months — Expansion Is Compounding</h2>
+  <p class="section-intro">Net Revenue Retention averaged 111.8% across all three years, improving steadily to 112.5% in 2024. This is the most durable signal in the dataset — it means existing customers expand usage over time regardless of macro conditions, ACV size, or acquisition pace.</p>
+
+  <div class="chart-2col">
+    <div class="chart-card">
+      <span class="chart-tag">Figure 8</span>
+      <div class="chart-headline">NRR never fell below 105.8% — structural customer stickiness confirmed across 36 months</div>
+      <div class="chart-canvas" id="chart-nrr"></div>
+      <div class="chart-note">NRR &gt;100% means existing customers generate more revenue each period without new logos. 110% = "strong" tier.</div>
+    </div>
+    <div class="chart-card">
+      <span class="chart-tag">Figure 9</span>
+      <div class="chart-headline">Expansion MRR grew 91% in 3 years — the expansion engine scales with the customer base</div>
+      <div class="chart-canvas" id="chart-expansion"></div>
+      <div class="chart-note">Expansion:Contraction ratio: 2.65× (2022) → 3.05× (2023) → 2.90× (2024). Nov 2024 record: $34,614 expansion MRR.</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <strong>R&D compound effect:</strong> Expansion MRR grew from $159K (2022 total) to $304K (2024 total) — a 91% increase — while R&D spend grew 62%. Each additional dollar of R&D investment is generating more expansion revenue than the prior year. This is the hallmark of product-led growth working correctly: the product itself drives both acquisition (lower CAC) and retention/expansion (higher NRR).
+  </div>
+
+  <div class="warning">
+    <strong>Early deterioration signal (2024):</strong> Contraction MRR grew 30% year-over-year ($80.7K → $104.8K) — faster than expansion MRR growth of 24% ($246K → $304K). This is why the expansion:contraction ratio fell from the 2023 peak of 3.05× to 2.90× despite the absolute expansion engine remaining healthy. The January 2024 monthly ratio touched 1.70× — the lowest reading in the entire 36-month dataset, approaching the ~2.5× floor needed to sustain NRR above 110%. Contraction acceleration, not churn acceleration, is the leading risk to the NRR story. A dedicated downgrade-prevention playbook is now warranted.
+  </div>
+</section>
+
+
+<!-- ══ SECTION 5: MARGINS ═══════════════════════════════════════════════════ -->
+<section class="section">
+  <h2>EBITDA Doubled — But Gross Margin Erosion Must Be Arrested in 2025</h2>
+  <p class="section-intro">EBITDA grew from $1.02M (2022) to $2.18M (2024) — a 114% improvement — as all three opex lines leveraged simultaneously. The headwind is gross margin, which eroded 107 basis points over three years. The company is approaching the 70% quality floor that institutional investors use as a benchmark.</p>
+
+  <div class="chart-card">
+    <span class="chart-tag">Figure 10</span>
+    <div class="chart-headline">Operating leverage expanded EBITDA margins 320 bps while gross margin eroded 107 bps — a race the company is currently winning, but not permanently</div>
+    <div class="chart-canvas-tall" id="chart-margins"></div>
+    <div class="chart-note">COGS grew 79.5% vs revenue growing 72.9% over the period. COGS per customer fell 57% ($324→$140) — but the per-unit improvement is decelerating.</div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>P&L Line</th>
+          <th>2022 ($)</th>
+          <th>2022 (%)</th>
+          <th>2023 ($)</th>
+          <th>2023 (%)</th>
+          <th>2024 ($)</th>
+          <th>2024 (%)</th>
+          <th>3-yr Trend</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Revenue</td>
+          <td>$7.53M</td>
+          <td>100%</td>
+          <td>$10.31M</td>
+          <td>100%</td>
+          <td>$13.02M</td>
+          <td>100%</td>
+          <td>+73%</td>
+        </tr>
+        <tr>
+          <td>COGS</td>
+          <td>$2.11M</td>
+          <td>28.0%</td>
+          <td>$2.93M</td>
+          <td>28.4%</td>
+          <td>$3.78M</td>
+          <td>29.0%</td>
+          <td>+79.5% ⚠</td>
+        </tr>
+        <tr>
+          <td>Gross Profit</td>
+          <td>$5.42M</td>
+          <td>72.0%</td>
+          <td>$7.39M</td>
+          <td>71.6%</td>
+          <td>$9.24M</td>
+          <td>71.0%</td>
+          <td>−107 bps</td>
+        </tr>
+        <tr>
+          <td>S&M</td>
+          <td>$2.23M</td>
+          <td>29.6%</td>
+          <td>$2.97M</td>
+          <td>28.8%</td>
+          <td>$3.50M</td>
+          <td>26.9%</td>
+          <td>−266 bps ✓</td>
+        </tr>
+        <tr>
+          <td>R&D</td>
+          <td>$1.30M</td>
+          <td>17.3%</td>
+          <td>$1.76M</td>
+          <td>17.1%</td>
+          <td>$2.11M</td>
+          <td>16.2%</td>
+          <td>−105 bps ✓</td>
+        </tr>
+        <tr>
+          <td>G&A</td>
+          <td>$0.88M</td>
+          <td>11.6%</td>
+          <td>$1.19M</td>
+          <td>11.5%</td>
+          <td>$1.44M</td>
+          <td>11.1%</td>
+          <td>−55 bps ✓</td>
+        </tr>
+        <tr>
+          <td><strong>EBITDA</strong></td>
+          <td><strong>$1.02M</strong></td>
+          <td><strong>13.5%</strong></td>
+          <td><strong>$1.47M</strong></td>
+          <td><strong>14.3%</strong></td>
+          <td><strong>$2.18M</strong></td>
+          <td><strong>16.7%</strong></td>
+          <td><strong>+320 bps ✓</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<!-- ══ SECTION 6: RISK LANDSCAPE ═══════════════════════════════════════════ -->
+<section class="section">
+  <h2>Risk Landscape</h2>
+  <p class="section-intro">Five material risks emerge from the multi-expert analysis. Two are structural and require near-term action; three are early-warning signals with defined trigger conditions.</p>
+
+  <div class="risk-grid">
+    <div class="risk-card high">
+      <div class="risk-badge">High · Structural</div>
+      <div class="risk-title">Gross Margin Approaching the 70% Quality Floor</div>
+      <div class="risk-body">Gross margin fell from 72.0% to 71.0% over 3 years (-107 bps). The erosion rate doubled from 2022→2023 (-41 bps) to 2023→2024 (-68 bps). COGS per customer improved 57% — but the improvement rate is decelerating as the base matures. Without structural action (cloud renegotiation, AI support automation, or pricing tiers), gross margin breaches 70% in 2025 — at which point SaaS valuation multiples typically compress 20-40% vs. peers above 70%.</div>
+    </div>
+
+    <div class="risk-card high">
+      <div class="risk-badge">High · Strategic</div>
+      <div class="risk-title">ACV Compression Has 12–18 Months Before Unit Economics Break</div>
+      <div class="risk-body">ACV fell 61.5% from $13,944 (Jan 2022) to $5,365 (Dec 2024) at roughly –30%/year. Projecting forward: ACV reaches ~$3,700 by Dec 2025 and ~$2,600 by Dec 2026. At $3,700 ACV, LTV/CAC compresses to ~4.5× (still acceptable). At $2,600 ACV, if CAC cannot fall below $1,500 simultaneously, LTV/CAC breaches the institutional 3× red line — making the business uninvestable at growth-stage multiples. The unit economics window holds for 12–18 months at current trajectory, but requires active intervention: an ACV floor, tiered pricing, or a mid-market motion must demonstrate results by Q3 2025 to avoid a narrative crisis at the next fundraise.</div>
+    </div>
+
+    <div class="risk-card medium">
+      <div class="risk-badge">Medium · Operational</div>
+      <div class="risk-title">Revenue per Employee Declining — Productivity Not Yet Leveraging</div>
+      <div class="risk-body">Revenue per employee fell from $169,866 (2022) to $148,149 (2024) — a 13% decline over 3 years. In 2022→2023, headcount grew 44.4% while revenue grew 37.0%; in 2023→2024, near-parity at 26.9% vs. 26.2%. The team is scaling in lockstep with revenue rather than outpacing it. In a PLG model, this is expected during the investment phase — but if it doesn't reverse to $160K+ RPE by 2025, it signals the organization is not yet generating the operating leverage investors expect.</div>
+    </div>
+
+    <div class="risk-card medium">
+      <div class="risk-badge">Medium · Unit Economics</div>
+      <div class="risk-title">LTV/CAC Ratio Compressed 48% in 9 Months (Mar–Dec 2024)</div>
+      <div class="risk-body">The LTV/CAC ratio peaked at 10.67× in March 2024 and fell to 5.51× by December 2024 — a 48% compression in 9 months. CAC is near its floor ($1,257 in Nov 2024). With CAC optimization largely exhausted, restoring the ratio requires either NRR expansion (push from 112.5% to 115%+) or ACV stabilization. If neither occurs and the ratio compresses below 3×, unit economics become uninvestable at growth-stage valuations.</div>
+    </div>
+
+    <div class="risk-card medium">
+      <div class="risk-badge">Medium · NRR</div>
+      <div class="risk-title">Contraction MRR Accelerating Faster Than Expansion — NRR Headwind Building</div>
+      <div class="risk-body">In 2024, contraction MRR grew 30% year-over-year ($80.7K → $104.8K), outpacing expansion MRR growth of 24% ($246K → $304K). If this trend persists through 2025, the expansion:contraction ratio falls from 2.90× toward ~2.2×, pushing average NRR from 112.5% toward 107–108%. The NRR story requires a ratio above ~2.5× to sustain readings above 110% — the threshold most enterprise buyers and growth investors use to validate a "land-and-expand" model. A downgrade-prevention program targeting the bottom quartile of accounts by ACV is the highest-leverage intervention available; reversing even 20% of annual contraction MRR would fully restore the 2023 peak ratio.</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ RECOMMENDATIONS ══════════════════════════════════════════════════════ -->
+<section class="section">
+  <h2>Recommendations</h2>
+
+  <div class="rec-list">
+    <div class="rec-card">
+      <div class="rec-num">01</div>
+      <div>
+        <div class="rec-title">Arrest Gross Margin Erosion Before Q3 2025 <span class="chip red">Urgent</span></div>
+        <div class="rec-body">Commission a line-by-line COGS audit targeting the 79.5% growth vs. 72.9% revenue growth gap. Priority candidates: cloud infrastructure contracts (leverage 6× customer growth for volume renegotiation), third-party data/API fees, and support-to-customer ratios. A 100-bps gross margin recovery at $13M revenue = $130K in annualized EBITDA — equivalent to one senior engineer. The window for renegotiation is most favorable now, while ARR growth provides leverage.</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">02</div>
+      <div>
+        <div class="rec-title">Formalize the Expansion MRR Playbook <span class="chip red">Urgent</span></div>
+        <div class="rec-body">Expansion MRR grew 91% to $304K/year (2024) and is now the primary mechanism sustaining NRR above 110%. But it's not yet systematized. Identify the top 3 in-product signals that predict expansion within 90 days, build automated triggers (usage thresholds, seat recommendations, QBR prompts), and staff a dedicated expansion function separate from CS. Every 1% increase in NRR — from 112.5% to 113.5% — adds approximately $160K to annualized retained revenue at current ARR.</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">03</div>
+      <div>
+        <div class="rec-title">Build a Volume Churn Dashboard, Not a Rate Dashboard <span class="chip amber">Priority</span></div>
+        <div class="rec-body">The 3% logo churn rate metric is misleading at current scale. Absolute churned logos were 675 in 2024 (vs. 196 in 2022 — a 3.4× increase). Replace the headline "churn rate" KPI with absolute monthly logo churn, cohort 12-month retention by ACV tier, and a CS capacity model tied to churning-customer volume. Set an operational alarm if absolute churn exceeds 70 logos/month (it averaged 56 in 2024 Q4). This reframe will surface CS capacity gaps before they become P&L events.</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">04</div>
+      <div>
+        <div class="rec-title">Run a Mid-Market Pilot to Test ACV Recovery <span class="chip amber">Priority</span></div>
+        <div class="rec-body">With CAC at $1,977 and a 5.5-month payback, the GTM machine can now support acquiring customers at ACV levels that were economically unviable in 2022. Design a dedicated mid-market motion targeting $8–12K ACV with a 6-person team, distinct playbook, and 12-month evaluation horizon. Success metric: NRR and LTV/CAC in this cohort vs. the SMB baseline. A 10% revenue mix shift toward $9K+ ACV contracts would add approximately $450K in incremental ARR annually at current customer volumes.</div>
+      </div>
+    </div>
+
+    <div class="rec-card">
+      <div class="rec-num">05</div>
+      <div>
+        <div class="rec-title">Accelerate Revenue per Employee Recovery to $160K+ <span class="chip accent">Monitor</span></div>
+        <div class="rec-body">The 13% decline in RPE over 3 years is not yet disqualifying but will become a story problem in 2025 investor conversations. The lever is not cutting headcount — it's ensuring the next 20 hires are in high-leverage roles (product, expansion sales, infrastructure optimization) that disproportionately lift revenue or compress COGS. Trigger for board-level review: if RPE falls below $135K or headcount growth exceeds revenue growth for two consecutive quarters, pause hiring until operating leverage is restored.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ NEXT STEPS ═══════════════════════════════════════════════════════════ -->
+<section class="section">
+  <h2>Suggested Next Steps</h2>
+  <div class="next-steps-grid">
+    <div class="next-step-item">Pull COGS breakdown by category (infrastructure, support, data feeds) and identify the largest line items for renegotiation leverage</div>
+    <div class="next-step-item">Build cohort retention analysis: 12-month logo retention by customer vintage and ACV tier — do newer, smaller cohorts churn faster?</div>
+    <div class="next-step-item">Model 2025 scenarios: SMB-only vs. SMB + Mid-Market mix, showing Rule of 40 and gross margin trajectories under each</div>
+    <div class="next-step-item">Map in-product signals to expansion triggers: identify top 3 behavioral predictors of upsell within 90 days</div>
+    <div class="next-step-item">Audit CS-to-customer ratios: compare Q4 2024 absolute churn count (214 logos) to CS team capacity for meaningful intervention</div>
+    <div class="next-step-item">Evaluate cloud/infrastructure contracts: 6.1× customer growth provides negotiating leverage for volume discounts; quantify potential recovery</div>
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer class="report-footer">
+  <div style="max-width: 640px;">
+    <strong>Data:</strong> sample-data/example.csv — 36 months of SaaS metrics (Jan 2022 – Dec 2024), 26 columns, no missing values.<br>
+    <strong>Methodology:</strong> 4 parallel expert subagents (SaaS Investor/BVP, Revenue Operations, Customer Economics, CFO/P&L) synthesized into unified narrative. No expert role names appear in the report.<br>
+    <strong>Benchmarks:</strong> Rule of 40 &gt;40 = top quartile (Battery). CAC payback &lt;12 mo = best-in-class. NRR &gt;110% = strong (OpenView). Gross margin &gt;70% = good SaaS (SaaS Capital). Magic Number &gt;1.0 = very efficient.
+  </div>
+  <div style="text-align:right; white-space:nowrap; flex-shrink:0;">
+    <div style="font-weight:700; color:var(--body); font-size:0.78rem;">data-analysis-skill</div>
+    <div>Takram Report Style</div>
+    <div>February 2026</div>
+  </div>
+</footer>
+
+
+<!-- ══ ECHARTS ═══════════════════════════════════════════════════════════════ -->
+<script>
+const MONTHS = [
+  "Jan '22","Feb '22","Mar '22","Apr '22","May '22","Jun '22",
+  "Jul '22","Aug '22","Sep '22","Oct '22","Nov '22","Dec '22",
+  "Jan '23","Feb '23","Mar '23","Apr '23","May '23","Jun '23",
+  "Jul '23","Aug '23","Sep '23","Oct '23","Nov '23","Dec '23",
+  "Jan '24","Feb '24","Mar '24","Apr '24","May '24","Jun '24",
+  "Jul '24","Aug '24","Sep '24","Oct '24","Nov '24","Dec '24"
+];
+
+const MRR = [
+  499669,496462,522578,544843,562223,592780,619885,630520,665347,679445,707538,742495,
+  755108,764696,769998,798066,804611,823426,844880,846822,863561,861634,901035,902782,
+  918142,961678,970432,963880,970164,1002142,1038876,1078549,1098752,1120425,1157821,1181979
+];
+
+const ACTIVE_CUSTS = [
+  430,455,473,500,524,552,584,628,674,714,763,789,
+  828,858,925,983,1024,1078,1111,1140,1202,1290,1365,1431,
+  1474,1562,1675,1736,1813,1949,2056,2142,2232,2361,2533,2644
+];
+
+const ACV = [
+  13944,13094,13258,13076,12875,12887,12737,12048,11846,11419,11128,11293,
+  10944,10695,9989,9742,9429,9166,9126,8914,8621,8015,7921,7570,
+  7475,7388,6952,6663,6421,6170,6063,6042,5907,5695,5485,5365
+];
+
+const CAC = [
+  6436,4723,5919,3745,4819,3885,3924,2921,3198,3512,2607,4352,
+  4290,3786,2845,2936,3504,2826,3697,3298,2384,1874,2429,2515,
+  3525,1936,1679,2562,1769,1729,1707,1886,2346,1557,1257,1767
+];
+
+const LTV_CAC = [
+  5.92,6.67,4.96,6.24,6.05,6.37,7.18,9.22,7.47,5.04,8.21,4.31,
+  5.90,5.48,9.02,5.96,4.17,8.08,4.46,4.42,7.10,8.48,5.55,5.65,
+  4.69,7.15,10.67,4.80,6.02,7.22,7.96,5.77,5.77,6.79,9.26,5.51
+];
+
+const NRR = [
+  107.9,112.08,106.26,112.51,107.72,113.9,110.14,111.62,116.19,108.42,111.89,111.32,
+  114.49,107.86,112.42,106.28,116.2,105.76,108.86,107.42,117.15,117.95,117.83,112.86,
+  115.02,112.57,116.49,117.1,108.97,111.97,111.65,105.91,110.47,111.04,114.76,114.05
+];
+
+const EXPANSION_MRR = [
+  10523,11301,12175,10577,11406,12420,16231,11910,13015,18022,15781,16120,
+  14871,16312,18426,19078,24043,25857,21155,22291,19366,19966,17912,26943,
+  17493,29412,28482,29119,30595,19559,26531,24083,19783,21497,34614,23039
+];
+
+const CONTRACTION_MRR = [
+  4265,3022,4632,3784,4304,6876,6995,4836,5351,4124,3824,8246,
+  4963,7404,6367,5546,4959,9854,9267,7905,8862,5259,5233,5097,
+  10266,6222,10839,10612,6746,8059,10426,8476,7700,9644,6379,9427
+];
+
+const GROSS_MARGIN = [
+  73.41,72.71,72.83,68.37,75.49,74.21,71.67,68.38,73.77,69.43,70.59,74.08,
+  70.49,73.05,74.28,70.71,68.4,75.88,72.63,73.4,73.73,69.71,68.06,69.63,
+  70.1,69.02,72.97,74.91,69.82,68.92,72.61,70.64,73.42,69.71,69.8,69.95
+];
+
+const EBITDA_MARGIN = [
+  13.07,12.18,9.28,14.04,15.78,20.83,15.96,10.94,14.64,6.65,12.36,16.48,
+  8.47,14.02,18.04,13.58,4.14,19.62,16.18,19.86,19.62,11.82,10.62,14.59,
+  13.10,12.15,17.0,18.28,21.17,11.39,21.05,15.52,17.03,13.3,22.17,17.58
+];
+
+// S&M % of revenue
+const SM_PCT = [
+  33.1,32.4,32.2,27.5,30.8,27.4,27.6,26.3,30.6,32.3,25.3,30.9,
+  32.6,26.6,30.9,31.3,32.2,26.5,28.5,26.1,26.1,26.2,30.1,28.7,
+  29.4,26.1,24.9,29.6,23.7,30.5,25.2,25.6,29.7,26.5,24.5,27.6
+];
+
+// Magic number by quarter (Q2 2022 through Q4 2024)
+const MAGIC_QUARTERS = [
+  "Q2'22","Q3'22","Q4'22",
+  "Q1'23","Q2'23","Q3'23","Q4'23",
+  "Q1'24","Q2'24","Q3'24","Q4'24"
+];
+const MAGIC_VALS = [1.631, 1.719, 1.660, 0.511, 0.904, 0.638, 0.656, 1.032, 0.482, 1.340, 1.104];
+
+// Sales velocity by quarter ($)
+const VEL_QUARTERS = [
+  "Q1'22","Q2'22","Q3'22","Q4'22",
+  "Q1'23","Q2'23","Q3'23","Q4'23",
+  "Q1'24","Q2'24","Q3'24","Q4'24"
+];
+const VEL_VALS = [
+  1235744, 1592358, 2063546, 2131920,
+  2119076, 2314188, 2097332, 2726696,
+  2632343, 2830338, 2755836, 3452390
+];
+
+// S&M total by year for bar
+const SM_ANNUAL = {
+  labels: ["2022","2023","2024"],
+  vals: [29.6, 28.8, 26.9],
+  rd: [17.3, 17.1, 16.2],
+  ga: [11.6, 11.5, 11.1]
+};
+
+// ── Common theme ─────────────────────────────────────────────────────────────
+const C = {
+  accent: '#3D5AFE',
+  cyan:   '#00BCD4',
+  green:  '#43A047',
+  red:    '#EF5350',
+  amber:  '#FF9800',
+  muted:  '#888888',
+  border: '#EBEBEB',
+  body:   '#2C2C2C'
+};
+
+const TOOLTIP = {
+  backgroundColor: '#fff',
+  borderColor: C.border,
+  textStyle: { color: C.body, fontSize: 12, fontFamily: 'Inter, sans-serif' },
+  extraCssText: 'box-shadow: 0 4px 20px rgba(0,0,0,0.10); border-radius: 8px;'
+};
+
+const AXIS = {
+  axisLine:  { lineStyle: { color: C.border } },
+  axisTick:  { show: false },
+  axisLabel: { color: C.muted, fontSize: 11, fontFamily: 'Inter, sans-serif' },
+  splitLine: { lineStyle: { color: '#F4F4F2', type: 'dashed' } }
+};
+
+
+// ── Figure 1: MRR ────────────────────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-mrr'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/><b>MRR: $${(p[0].value/1000).toFixed(0)}K</b>` },
+    grid: { top: 12, right: 12, bottom: 44, left: 60 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel,
+        formatter: v => v >= 1000000 ? `$${(v/1e6).toFixed(1)}M` : `$${(v/1000).toFixed(0)}K` } },
+    series: [{
+      type: 'line', data: MRR, smooth: 0.4, showSymbol: false,
+      lineStyle: { color: C.accent, width: 2.5 },
+      itemStyle: { color: C.accent },
+      areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [
+          { offset: 0, color: 'rgba(61,90,254,0.15)' },
+          { offset: 1, color: 'rgba(61,90,254,0)' }
+        ] } }
+    }]
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 2: Active Customers ───────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-customers'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/><b>Customers: ${p[0].value.toLocaleString()}</b>` },
+    grid: { top: 12, right: 12, bottom: 44, left: 52 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => v.toLocaleString() } },
+    series: [{
+      type: 'bar', data: ACTIVE_CUSTS, barMaxWidth: 16,
+      itemStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [
+          { offset: 0, color: C.cyan },
+          { offset: 1, color: 'rgba(0,188,212,0.3)' }
+        ] }, borderRadius: [3, 3, 0, 0] }
+    }]
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 3: Magic Number ───────────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-magic'));
+  const colors = MAGIC_VALS.map(v =>
+    v >= 1.0 ? C.green :
+    v >= 0.7 ? C.amber :
+    C.red
+  );
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/><b>Magic Number: ${p[0].value.toFixed(2)}</b>` },
+    grid: { top: 16, right: 16, bottom: 32, left: 44 },
+    xAxis: { type: 'category', data: MAGIC_QUARTERS, ...AXIS },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `${v}×` } },
+    series: [{
+      type: 'bar', barMaxWidth: 36,
+      data: MAGIC_VALS.map((v, i) => ({ value: v, itemStyle: { color: colors[i], borderRadius: [4, 4, 0, 0] } }))
+    }],
+    markLine: {
+      silent: true,
+      data: [{ yAxis: 1.0, lineStyle: { color: C.green, type: 'dashed', width: 1.5 },
+               label: { formatter: '1.0 efficient', position: 'insideEndTop', color: C.green, fontSize: 10 } }]
+    }
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 4: S&M % of Revenue (opex leverage) ──────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-sm'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis' },
+    legend: { data: ['S&M','R&D','G&A'], top: 0, right: 0,
+      textStyle: { color: C.muted, fontSize: 10 }, icon: 'circle', itemWidth: 8 },
+    grid: { top: 28, right: 16, bottom: 32, left: 40 },
+    xAxis: { type: 'category', data: ['2022','2023','2024'], ...AXIS },
+    yAxis: { type: 'value', ...AXIS, min: 0, max: 35,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `${v}%` } },
+    series: [
+      { name: 'S&M', type: 'bar', data: [29.6, 28.8, 26.9], barMaxWidth: 32,
+        itemStyle: { color: C.accent, borderRadius: [4, 4, 0, 0] }, stack: 'opex' },
+      { name: 'R&D', type: 'bar', data: [17.3, 17.1, 16.2], barMaxWidth: 32,
+        itemStyle: { color: C.cyan, borderRadius: [0,0,0,0] }, stack: 'opex' },
+      { name: 'G&A', type: 'bar', data: [11.6, 11.5, 11.1], barMaxWidth: 32,
+        itemStyle: { color: '#B0BEC5', borderRadius: [0,0,4,4] }, stack: 'opex' }
+    ]
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 5: Sales Velocity ─────────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-velocity'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/><b>Velocity: $${(p[0].value/1000).toFixed(0)}K</b>` },
+    grid: { top: 12, right: 12, bottom: 32, left: 56 },
+    xAxis: { type: 'category', data: VEL_QUARTERS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `$${(v/1000).toFixed(0)}K` } },
+    series: [{
+      type: 'line', data: VEL_VALS, smooth: 0.3, showSymbol: true, symbolSize: 5,
+      lineStyle: { color: C.green, width: 2.5 }, itemStyle: { color: C.green },
+      areaStyle: { color: 'rgba(67,160,71,0.1)' }
+    }]
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 6: ACV + CAC ──────────────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-acv-cac'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/>
+        <span style="color:${C.amber}">●</span> ACV: $${p[0].value.toLocaleString()}<br/>
+        <span style="color:${C.red}">●</span> CAC: $${p[1].value.toLocaleString()}`
+    },
+    legend: { data: ['ACV (Annual)','CAC'], top: 0, right: 0,
+      textStyle: { color: C.muted, fontSize: 10 }, icon: 'circle', itemWidth: 8 },
+    grid: { top: 28, right: 12, bottom: 44, left: 60 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `$${(v/1000).toFixed(0)}K` } },
+    series: [
+      { name: 'ACV (Annual)', type: 'line', data: ACV, smooth: 0.3, showSymbol: false,
+        lineStyle: { color: C.amber, width: 2.5 }, itemStyle: { color: C.amber },
+        areaStyle: { color: 'rgba(255,152,0,0.08)' } },
+      { name: 'CAC', type: 'line', data: CAC, smooth: 0.3, showSymbol: false,
+        lineStyle: { color: C.red, width: 2 }, itemStyle: { color: C.red } }
+    ]
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 7: LTV/CAC ────────────────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-ltv-cac'));
+  const barColors = LTV_CAC.map(v =>
+    v >= 8 ? C.green :
+    v >= 5 ? C.accent :
+    C.amber
+  );
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/><b>LTV/CAC: ${p[0].value.toFixed(2)}×</b>` },
+    grid: { top: 12, right: 12, bottom: 44, left: 42 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `${v}×` } },
+    series: [{
+      type: 'bar', barMaxWidth: 14,
+      data: LTV_CAC.map((v, i) => ({
+        value: v,
+        itemStyle: { color: barColors[i], borderRadius: [3, 3, 0, 0] }
+      }))
+    }],
+    markLine: {
+      silent: true,
+      data: [{ yAxis: 3, lineStyle: { color: C.red, type: 'dashed', width: 1 },
+               label: { formatter: '3× floor', position: 'insideEndTop', color: C.red, fontSize: 9 } }]
+    }
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 8: NRR ────────────────────────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-nrr'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/><b>NRR: ${p[0].value.toFixed(1)}%</b>` },
+    grid: { top: 12, right: 12, bottom: 44, left: 48 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 100, max: 122,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `${v}%` } },
+    series: [{
+      type: 'line', data: NRR, smooth: 0.3, showSymbol: false,
+      lineStyle: { color: C.cyan, width: 2.5 }, itemStyle: { color: C.cyan },
+      areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [
+          { offset: 0, color: 'rgba(0,188,212,0.2)' },
+          { offset: 1, color: 'rgba(0,188,212,0)' }
+        ] } }
+    }],
+    markLine: {
+      silent: true,
+      data: [
+        { yAxis: 100, lineStyle: { color: C.red, type: 'solid', width: 1.5 } },
+        { yAxis: 110, lineStyle: { color: C.green, type: 'dashed', width: 1 } }
+      ]
+    }
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 9: Expansion vs Contraction ──────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-expansion'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/>
+        <span style="color:${C.green}">●</span> Expansion: $${p[0].value.toLocaleString()}<br/>
+        <span style="color:${C.red}">●</span> Contraction: $${p[1].value.toLocaleString()}`
+    },
+    legend: { data: ['Expansion MRR','Contraction MRR'], top: 0, right: 0,
+      textStyle: { color: C.muted, fontSize: 10 }, icon: 'circle', itemWidth: 8 },
+    grid: { top: 28, right: 12, bottom: 44, left: 56 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `$${(v/1000).toFixed(0)}K` } },
+    series: [
+      { name: 'Expansion MRR', type: 'bar', data: EXPANSION_MRR, barMaxWidth: 12, stack: 'e',
+        itemStyle: { color: C.green, borderRadius: [3,3,0,0] } },
+      { name: 'Contraction MRR', type: 'bar', data: CONTRACTION_MRR.map(v => -v), stack: 'e',
+        itemStyle: { color: C.red, borderRadius: [0,0,3,3] } }
+    ]
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+
+
+// ── Figure 10: Gross + EBITDA Margins ────────────────────────────────────────
+(function() {
+  const chart = echarts.init(document.getElementById('chart-margins'));
+  chart.setOption({
+    tooltip: { ...TOOLTIP, trigger: 'axis',
+      formatter: p => `${p[0].axisValue}<br/>
+        <span style="color:${C.accent}">●</span> Gross: ${p[0].value.toFixed(1)}%<br/>
+        <span style="color:${C.green}">●</span> EBITDA: ${p[1].value.toFixed(1)}%`
+    },
+    legend: { data: ['Gross Margin','EBITDA Margin'], top: 0, right: 0,
+      textStyle: { color: C.muted, fontSize: 10 }, icon: 'circle', itemWidth: 8 },
+    grid: { top: 28, right: 16, bottom: 44, left: 44 },
+    xAxis: { type: 'category', data: MONTHS, ...AXIS,
+      axisLabel: { ...AXIS.axisLabel, interval: 5, rotate: 30 } },
+    yAxis: { type: 'value', ...AXIS, min: 0, max: 80,
+      axisLabel: { ...AXIS.axisLabel, formatter: v => `${v}%` } },
+    series: [
+      { name: 'Gross Margin', type: 'line', data: GROSS_MARGIN, smooth: 0.3, showSymbol: false,
+        lineStyle: { color: C.accent, width: 2 }, itemStyle: { color: C.accent },
+        areaStyle: { color: 'rgba(61,90,254,0.06)' } },
+      { name: 'EBITDA Margin', type: 'line', data: EBITDA_MARGIN, smooth: 0.3, showSymbol: false,
+        lineStyle: { color: C.green, width: 2.5 }, itemStyle: { color: C.green } }
+    ],
+    markLine: {
+      silent: true,
+      data: [{ yAxis: 70, lineStyle: { color: C.amber, type: 'dashed', width: 1 },
+               label: { formatter: '70% floor', position: 'insideEndTop', color: C.amber, fontSize: 9 } }]
+    }
+  });
+  window.addEventListener('resize', () => chart.resize());
+})();
+</script>
+
+</body>
+</html>
